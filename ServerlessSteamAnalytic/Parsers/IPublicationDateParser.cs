@@ -3,7 +3,7 @@ using ServerlessSteamAnalytic.GameInfoModels;
 
 namespace ServerlessSteamAnalytic.Parsers;
 
-public interface IGameTitleParser
+public interface IPublicationDateParser
 {
-    Title? ParseGameTitle(HtmlDocument htmlDocument);
+    PublicationDate? ParsePublicationDate(HtmlDocument htmlDocument);
 }

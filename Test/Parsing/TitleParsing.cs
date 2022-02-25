@@ -21,7 +21,7 @@ public class TitleParsing
     [Test]
     public void NoTitle()
     {
-        var parser = new GamePageParser();
+        var parser = new PageParser();
         var doc = new HtmlDocument();
         var parsed = parser.ParseGameTitle(doc);
         Assert.Null(parsed, "Title == null");
@@ -29,7 +29,7 @@ public class TitleParsing
 
     private void TestTitle(string html, string title)
     {
-        var parser = new GamePageParser();
+        var parser = new PageParser();
         var doc = new HtmlDocument();
         doc.LoadHtml(html);
         

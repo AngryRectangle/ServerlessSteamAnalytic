@@ -127,6 +127,26 @@ namespace Test {
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
         ///			&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
         ///		&lt;meta name=&quot;theme-color&quot; content=&quot;#171a21&quot;&gt;
+        ///		&lt;title&gt;Kingdomfall on Steam&lt;/title&gt;
+        ///	&lt;link rel=&quot;shortcut icon&quot; href=&quot;/favicon.ico&quot; type=&quot;image/x-icon&quot;&gt;
+        ///
+        ///	
+        ///	
+        ///	&lt;link href=&quot;https://store.akamai.steamstatic.com/public/shared/css/motiva_sans.css?v=Rc2hpzg2Ex3T&amp;amp;l=english&quot; rel=&quot;stylesheet&quot; type=&quot;text/cs [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Kingdomfall {
+            get {
+                return ResourceManager.GetString("Kingdomfall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html class=&quot; responsive&quot; lang=&quot;en&quot;&gt;
+        ///&lt;head&gt;
+        ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+        ///			&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+        ///		&lt;meta name=&quot;theme-color&quot; content=&quot;#171a21&quot;&gt;
         ///		&lt;title&gt; on Steam&lt;/title&gt;
         ///	&lt;link rel=&quot;shortcut icon&quot; href=&quot;/favicon.ico&quot; type=&quot;image/x-icon&quot;&gt;
         ///
