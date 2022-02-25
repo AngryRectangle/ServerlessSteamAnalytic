@@ -27,33 +27,33 @@ public class PageParser : ITitleParser, IPublicationDateParser, IAllReviewsParse
         if (node is null || node.Count == 0)
             return null;
 
-        var allReviewsNode = node[1];
-        var type = GetType(allReviewsNode);
-        var shortDescription
-            = allReviewsNode.SelectSingleNode(allReviewsNode.XPath +
-                                              "//span[contains(@class, 'responsive_reviewdesc_short')]");
-        if (shortDescription is null || type == Reviews.Type.NoReviews)
+        return ParseReviews(node[1]);
+    }
+
+    private Reviews? ParseReviews(HtmlNode? node)
+    {
+        if (node is null)
+            return null;
+        
+        var reviewSummaryNode = node.SelectSingleNode(node.XPath + "//span[contains(@class, 'game_review_summary')]");
+        if (reviewSummaryNode is null)
             return new Reviews(Reviews.Type.NoReviews, 0, 0);
 
-        if (type == Reviews.Type.NotEnough)
+        if (reviewSummaryNode.GetAttributeValue("class", string.Empty).Contains("not_enough_reviews"))
         {
-            var text = allReviewsNode.SelectSingleNode("//span[contains(@class, 'game_review_summary')]").InnerText;
-            var count = int.Parse(Regex.Match(text, @"([\d]+)*").Groups[1].Value);
-            return new Reviews(type, count, 0);
+            var count = int.Parse(Regex.Match(reviewSummaryNode.InnerText, @"([\d]+)*").Groups[1].Value);
+            return new Reviews(Reviews.Type.NotEnough, count, 0);
         }
+
+        var type = Reviews.GetType(reviewSummaryNode.InnerText);
+        var shortDescription
+            = node.SelectSingleNode(node.XPath + "//span[contains(@class, 'responsive_reviewdesc_short')]");
+        if (shortDescription is null)
+            return new Reviews(Reviews.Type.NoReviews, 0, 0);
+
         var match = Regex.Match(shortDescription.InnerText, @"\(([\d]+)% of ([\d]+)");
         var positivePercentage = int.Parse(match.Groups[1].Value);
         var totalCount = int.Parse(match.Groups[2].Value);
         return new Reviews(type, totalCount, positivePercentage);
-    }
-
-    private Reviews.Type GetType(HtmlNode reviewsNode)
-    {
-        var typeNode = reviewsNode.SelectSingleNode("//span[contains(@class, 'game_review_summary')]");
-        if (typeNode is null)
-            return Reviews.Type.NoReviews;
-        if (typeNode.GetAttributeValue("class", string.Empty).Contains("not_enough_reviews"))
-            return Reviews.Type.NotEnough;
-        return Reviews.GetType(typeNode.InnerText);
     }
 }
