@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using ServerlessSteamAnalytic.GameInfoModels;
 
@@ -47,13 +48,13 @@ public class PageParser : ITitleParser, IPublicationDateParser, IAllReviewsParse
 
         var type = Reviews.GetType(reviewSummaryNode.InnerText);
         var shortDescription
-            = node.SelectSingleNode(node.XPath + "//span[contains(@class, 'responsive_reviewdesc_short')]");
+            = node.SelectSingleNode(node.XPath + "//span[contains(@class, 'responsive_reviewdesc')]");
         if (shortDescription is null)
             return new Reviews(Reviews.Type.NoReviews, 0, 0);
 
-        var match = Regex.Match(shortDescription.InnerText, @"\(([\d]+)% of ([\d]+)");
+        var match = Regex.Match(shortDescription.InnerText, @"([\d]+)%[\D]+([\d]+,?[\d]*).*");
         var positivePercentage = int.Parse(match.Groups[1].Value);
-        var totalCount = int.Parse(match.Groups[2].Value);
+        var totalCount = int.Parse(match.Groups[2].Value, NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
         return new Reviews(type, totalCount, positivePercentage);
     }
 }
