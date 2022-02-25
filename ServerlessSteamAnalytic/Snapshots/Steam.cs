@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ServerlessSteamAnalytic.Steam;
+namespace ServerlessSteamAnalytic.Snapshots;
 
 public class Steam : ISteam
 {

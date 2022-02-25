@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ServerlessSteamAnalytic.Steam;
+namespace ServerlessSteamAnalytic.Snapshots;
 
 public class GameNotFoundException : Exception
 {

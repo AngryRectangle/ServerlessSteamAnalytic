@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ServerlessSteamAnalytic.Steam;
+namespace ServerlessSteamAnalytic.Snapshots;
 
 public interface ISteam
 {
