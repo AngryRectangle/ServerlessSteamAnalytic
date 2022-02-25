@@ -1,11 +1,12 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using ServerlessSteamAnalytic.GameInfoModels;
 
 namespace ServerlessSteamAnalytic.Parsers;
 
-public class PageParser : ITitleParser, IPublicationDateParser, IAllReviewsParser
+public class PageParser : ITitleParser, IPublicationDateParser, IAllReviewsParser, IRecentReviewsParsers
 {
     public Title? ParseGameTitle(HtmlDocument html)
     {
@@ -24,18 +25,30 @@ public class PageParser : ITitleParser, IPublicationDateParser, IAllReviewsParse
 
     public Reviews? ParseAllReviews(HtmlDocument htmlDocument)
     {
-        var node = htmlDocument.DocumentNode.SelectNodes("//div[@class='user_reviews_summary_row']");
-        if (node is null || node.Count == 0)
+        var nodes = GetReviewsNodes(htmlDocument);
+        if (nodes is null || nodes.Count == 0)
             return null;
 
-        return ParseReviews(node[1]);
+        return ParseReviews(nodes.Count < 2 ? nodes[0] : nodes[1]);
     }
+
+    public Reviews? ParseRecentReviews(HtmlDocument htmlDocument)
+    {
+        var nodes = GetReviewsNodes(htmlDocument);
+        if (nodes is null || nodes.Count < 2)
+            return null;
+
+        return ParseReviews(nodes[0]);
+    }
+
+    private IList<HtmlNode>? GetReviewsNodes(HtmlDocument document)
+        => document.DocumentNode.SelectNodes("//div[@id='userReviews']/div[@class='user_reviews_summary_row']");
 
     private Reviews? ParseReviews(HtmlNode? node)
     {
         if (node is null)
             return null;
-        
+
         var reviewSummaryNode = node.SelectSingleNode(node.XPath + "//span[contains(@class, 'game_review_summary')]");
         if (reviewSummaryNode is null)
             return new Reviews(Reviews.Type.NoReviews, 0, 0);
