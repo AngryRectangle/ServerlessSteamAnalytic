@@ -19,7 +19,7 @@ public class Reviews
     {
         return stringType.ToLower() switch
         {
-            "overhwelmingly positive" => Type.OverhwelminglyPositive,
+            "overwhelmingly positive" => Type.OverhwelminglyPositive,
             "very positive" => Type.VeryPositive,
             "positive" => Type.Positive,
             "mostly positive" => Type.MostlyPositive,
@@ -27,7 +27,7 @@ public class Reviews
             "mostly negative" => Type.MostlyNegative,
             "negative" => Type.Negative,
             "very negative" => Type.VeryNegative,
-            "overhwelmingly negative" => Type.OverhwelminglyNegative,
+            "overwhelmingly negative" => Type.OverhwelminglyNegative,
             _ => throw new ArgumentOutOfRangeException()
         };
     }
